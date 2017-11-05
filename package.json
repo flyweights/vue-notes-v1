@@ -1,0 +1,24 @@
+{
+  "name": "vue-notes-v1",
+  "version": "1.0.0",
+  "description": "单纯地写个带语义化的项目",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "browser-sync start --server --files \".\" "        
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/flyweights/vue-notes-v1.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/flyweights/vue-notes-v1/issues"
+  },
+  "homepage": "https://github.com/flyweights/vue-notes-v1#readme",
+  "devDependencies": {
+    "browser-sync": "^2.18.13"
+  }
+}
