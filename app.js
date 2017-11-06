@@ -9,6 +9,12 @@ const Note = {
 }
 
 const Notes = {
+    created () {
+        loadCollection('notes')
+            .then((collection) => {
+                console.log(collection)
+            })
+    },
     components: {
         'note': Note
     },

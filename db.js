@@ -1,4 +1,4 @@
-const db = new loki('notes',{
+const db = new loki('notes', {
     autoload: true,
     autoloadCallback: databaseInitialize,
     autosave: true,
@@ -11,6 +11,16 @@ function databaseInitialize() {
         db.addCollection('notes')
     }
 }
+
+function loadCollection(collection) {
+    return new Promise(resolve => {
+        db.loadDatabase({}, () => {
+            const _collection = db.getCollection(collection) || db.addCollection('notes')
+            resolve(_collection)
+        })
+    })
+}
+
 /*
 1.直接查看数据库
 ```
