@@ -1,8 +1,18 @@
 const Note = {
+    props: [
+        'entityObject'
+    ],
+    data () {
+        return {
+            entity: this.entityObject
+        }
+    },
     template: `
     <div class="item">
         <div class="content">
-            <div class="header">笔记</div>
+            <div class="header">
+             {{ entity.body }}            
+            </div>
         </div>
     </div>
     `
@@ -11,19 +21,19 @@ const Note = {
 const Notes = {
     data () {
         return {
-            entites: []
+            entities: []
         }
     },
     created () {
         loadCollection('notes')
             .then((collection) => {
                 //console.log(collection)
-                const _entites = collection.chain()
+                const _entities = collection.chain()
                     .find()//取出
                     .simplesort('$loki', 'isdesc')//排序
                     .data()//返回数组
-                this.entites = _entites
-                console.log(this.entites)
+                this.entities = _entities
+                console.log(this.entities)
             })
     },
     components: {
@@ -37,13 +47,16 @@ const Notes = {
         </h4>
         <a class="ui right floated basic violet button">添加笔记</a>
         <div class="ui divided items">
-            <note></note>
-            <note></note>
-            <note></note>
-            <note></note>
+            <note
+            v-for="entity in this.entities"
+            v-bind:entityObject="entity"
+            v-bind:key="entity.$loki"
+            >
+            </note>
         </div>
     </div>
     `
+    
 }
 
 /**
