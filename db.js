@@ -13,11 +13,12 @@ function databaseInitialize() {
 }
 
 function loadCollection(collection) {
-    return new Promise(resolve => {
-        db.loadDatabase({}, () => {
-            const _collection = db.getCollection(collection) || db.addCollection('notes')
-            resolve(_collection)
-        })
+    return new Promise(
+        resolve => {
+            db.loadDatabase({}, () => {
+                const _collection = db.getCollection(collection) || db.addCollection('notes')
+                resolve(_collection)
+            })
     })
 }
 

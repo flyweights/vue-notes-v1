@@ -9,10 +9,21 @@ const Note = {
 }
 
 const Notes = {
+    data () {
+        return {
+            entites: []
+        }
+    },
     created () {
         loadCollection('notes')
             .then((collection) => {
-                console.log(collection)
+                //console.log(collection)
+                const _entites = collection.chain()
+                    .find()//取出
+                    .simplesort('$loki', 'isdesc')//排序
+                    .data()//返回数组
+                this.entites = _entites
+                console.log(this.entites)
             })
     },
     components: {
@@ -36,8 +47,8 @@ const Notes = {
 }
 
 /**
- * Vue最简单的用法就是e，c，t ...
- * 
+ * Vue最简单的用法就是e，c，t， ...
+ * 常用函数d
  */
 const app = new Vue({
     el: '#app',
