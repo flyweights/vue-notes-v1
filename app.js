@@ -27,7 +27,13 @@ const Note = {
     data () {
         return {
             entity: this.entityObject,
-            open: true
+            open: false
+        }
+    },
+    //计算属性
+    computed: {
+        header(){
+            return _.truncate(this.entity.body, {length:30})
         }
     },
     //键是注册的标签名字，值是组件变量名
@@ -39,7 +45,7 @@ const Note = {
     <div class="item">
         <div class="content">
             <div class="header" v-on:click="open = !open">
-             {{ entity.body || '新建笔记' }}            
+             {{ header || '新建笔记' }}            
             </div>
             <div class="extra">
                 <editor
