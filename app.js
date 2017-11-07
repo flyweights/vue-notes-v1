@@ -1,3 +1,24 @@
+const Editor = {
+    props: [
+        'entityObject'
+    ],
+    data () {
+        return {
+            entity: this.entityObject
+        }
+    },
+    //v-model的理解不够深
+    template:`
+        <div class="ui form">
+            <div class="field">
+                <textarea
+                rows="5" placeholder="写点东西" v-model="entity.body">
+                </textarea>
+            </div>
+        </div>
+    `
+}
+
 const Note = {
     props: [
         'entityObject',
@@ -7,11 +28,21 @@ const Note = {
             entity: this.entityObject,
         }
     },
+    //键是注册的标签名字，值是组件变量名
+    components: {
+      'editor': Editor  
+    },
+    //v-bind父子传值
     template: `
     <div class="item">
         <div class="content">
             <div class="header">
              {{ entity.body || '新建笔记' }}            
+            </div>
+            <div class="extra">
+                <editor
+                v-bind:entity-object="entity"
+                ></editor>
             </div>
         </div>
     </div>
