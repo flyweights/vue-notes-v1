@@ -12,7 +12,8 @@ const Editor = {
         <div class="ui form">
             <div class="field">
                 <textarea
-                rows="5" placeholder="写点东西" v-model="entity.body">
+                    rows="5" placeholder="写点东西"
+                    v-model="entity.body">
                 </textarea>
             </div>
         </div>
@@ -26,6 +27,7 @@ const Note = {
     data () {
         return {
             entity: this.entityObject,
+            open: true
         }
     },
     //键是注册的标签名字，值是组件变量名
@@ -36,13 +38,14 @@ const Note = {
     template: `
     <div class="item">
         <div class="content">
-            <div class="header">
+            <div class="header" v-on:click="open = !open">
              {{ entity.body || '新建笔记' }}            
             </div>
             <div class="extra">
                 <editor
-                v-bind:entity-object="entity"
-                ></editor>
+                    v-bind:entity-object="entity"
+                    v-if="open">
+                </editor>
             </div>
         </div>
     </div>
