@@ -20,7 +20,7 @@ const Editor = {
             <div class="field">
                 <textarea
                     rows="5"
-                    placeholder="写点东西"
+                    placeholder="写点东西..."
                     v-model="entity.body"
                     v-on:input="update">
                 </textarea>
@@ -59,7 +59,10 @@ const Note = {
                 collection.update(this.entity)
                 db.saveDatabase()
             })
-      }  
+      },
+      destroy () {
+          this.$emit('destroy', this.entity.$loki)
+      } 
     },
     //键是注册的标签名字，值是组件变量名
     components: {
@@ -81,7 +84,11 @@ const Note = {
                     v-if="open"
                     v-on:update="save">
                 </editor>
-                <p>{{ words }} 字</p>
+                <p>{{ words }} 字·</p>
+                <i class="right floated trash outline icon"
+                    v-if="open"
+                    v-on:click="destroy">
+                </i>
             </div>
         </div>
     </div>
@@ -103,6 +110,18 @@ const Notes = {
                 })
                 db.saveDatabase()//保存到数据库
                 this.entities.unshift(entity)//修改界面
+            })
+      },
+      destroy (id) {
+          const _entities = this.entities.filter((entity) => {
+              return entity.$loki !== id
+          })
+          this.entities = _entities
+
+          loadCollection('notes')
+            .then((collection) => {
+                collection.remove({ '$loki':id })
+                db.saveDatabase()
             })
       }
     },
@@ -136,10 +155,10 @@ const Notes = {
         >添加笔记</a>
         <div class="ui divided items">
             <note
-            v-for="entity in this.entities"
-            v-bind:entityObject="entity"
-            v-bind:key="entity.$loki"
-            >
+                v-for="entity in this.entities"
+                v-bind:entityObject="entity"
+                v-bind:key="entity.$loki"
+                v-on:destroy="destroy">
             </note>
         </div>
     </div>
