@@ -7,13 +7,22 @@ const Editor = {
             entity: this.entityObject
         }
     },
+    //$emit未懂，回调给该父组件
+    methods: {
+        //回调更新
+        update() {
+            this.$emit("update")
+        },
+    },
     //v-model的理解不够深
     template:`
         <div class="ui form">
             <div class="field">
                 <textarea
-                    rows="5" placeholder="写点东西"
-                    v-model="entity.body">
+                    rows="5"
+                    placeholder="写点东西"
+                    v-model="entity.body"
+                    v-on:input="update">
                 </textarea>
             </div>
         </div>
@@ -34,7 +43,19 @@ const Note = {
     computed: {
         header(){
             return _.truncate(this.entity.body, {length:30})
+        },
+        updated () {
+            return moment(this.entity.meta.updated).fromNow()
         }
+    },
+    methods: {
+      save() {
+        loadCollection('notes')
+            .then((collection) => {
+                collection.update(this.entity)
+                db.saveDatabase()
+            })
+      }  
     },
     //键是注册的标签名字，值是组件变量名
     components: {
@@ -43,6 +64,9 @@ const Note = {
     //v-bind父子传值
     template: `
     <div class="item">
+        <div class="meta">
+            {{ updated }}
+        </div>
         <div class="content">
             <div class="header" v-on:click="open = !open">
              {{ header || '新建笔记' }}            
@@ -50,7 +74,8 @@ const Note = {
             <div class="extra">
                 <editor
                     v-bind:entity-object="entity"
-                    v-if="open">
+                    v-if="open"
+                    v-on:update="save">
                 </editor>
             </div>
         </div>
