@@ -76,7 +76,7 @@ const Note = {
         </div>
         <div class="content">
             <div class="header" v-on:click="open = !open">
-             {{ header || '新建笔记' }}            
+             {{ header || '新建笔记（点击此处便可输入）' }}            
             </div>
             <div class="extra">
                 <editor
