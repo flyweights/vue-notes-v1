@@ -84,7 +84,7 @@ const Note = {
                     v-if="open"
                     v-on:update="save">
                 </editor>
-                <p>{{ words }} 字·</p>
+                <p>{{ words }} 字</p>
                 <i class="right floated trash outline icon"
                     v-if="open"
                     v-on:click="destroy">
@@ -160,6 +160,11 @@ const Notes = {
                 v-bind:key="entity.$loki"
                 v-on:destroy="destroy">
             </note>
+            <span
+                class="ui small disabled header"
+                v-if="!this.entities.length">
+                还没有笔记，情点击“添加笔记”按钮
+            </span>
         </div>
     </div>
     `
